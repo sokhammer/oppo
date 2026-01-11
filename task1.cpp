@@ -40,19 +40,19 @@ void PrintTemperatureMeasurement(const TemperatureMeasurement& tm) {
 
 vector<TemperatureMeasurement> ReadMeasurementsFromFile(const string& filename) {
   vector<TemperatureMeasurement> measurements;
-  ifstream input_file(filename);
-  
+  ifstream input_file(filename.c_str()); // В C++98 нужно .c_str()
+
   if (!input_file.is_open()) {
     cerr << "Ошибка: не удалось открыть файл " << filename << endl;
     return measurements;
   }
-  
+
   string line;
   while (getline(input_file, line)) {
     if (line.empty()) {
       continue;
     }
-    
+
     try {
       TemperatureMeasurement tm = ParseTemperatureMeasurement(line);
       measurements.push_back(tm);
@@ -60,7 +60,7 @@ vector<TemperatureMeasurement> ReadMeasurementsFromFile(const string& filename) 
       cerr << "Ошибка при разборе строки: " << line << endl;
     }
   }
-  
+
   input_file.close();
   return measurements;
 }
@@ -69,14 +69,14 @@ int main() {
   cout << "Введите имя файла с данными: ";
   string filename;
   getline(cin, filename);
-  
+
   vector<TemperatureMeasurement> measurements = ReadMeasurementsFromFile(filename);
-  
+
   cout << "\nЗагруженные измерения:" << endl;
   cout << "=====================" << endl;
-  
-  for (const auto& tm : measurements) {
-    PrintTemperatureMeasurement(tm);
+
+  for (size_t i = 0; i < measurements.size(); ++i) {
+    PrintTemperatureMeasurement(measurements[i]);
   }
   
   cout << "Всего загружено измерений: " << measurements.size() << endl;
