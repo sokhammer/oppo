@@ -15,7 +15,7 @@
 
 using namespace std;
 
-// Вспомогательная структура для хранения пунктов меню в C++98
+
 struct MenuItem {
     string description;
     bool (*function)(vector<TempData>&);
